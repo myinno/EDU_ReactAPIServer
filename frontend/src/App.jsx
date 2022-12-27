@@ -1,9 +1,18 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+
+  function getHello() {
+    const greet = document.getElementById('greet')
+    fetch('http://localhost:4000/api/hello')
+      .then(response => response.json())
+      .then(data => greet.innerHTML = JSON.stringify(data))
+  }
+  // Similar to componentDidMount and componentDidUpdate:
+  useEffect(getHello)
 
   return (
     <div className="App">
@@ -20,6 +29,11 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
+
+        <p>
+          api called: <code id="greet"></code>
+        </p>
+
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>
